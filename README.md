@@ -4,7 +4,7 @@
 
 git clone https://github.com/immortalserg/DalyBMS_linux.git
 
-cd src
+cd DalyBMS_linux
 
 cmake . && make
 
@@ -12,6 +12,6 @@ cmake . && make
 
 отредактируйте файл bms.conf заменив на свой порт, в кронтаб добавьте строку
 
-@reboot cd /ПУТЬ/ДО/папки_src ./smart_bms
+@reboot cd /ПУТЬ/ДО/DalyBMS_linux ./smart_bms
 
 перезагрузите устройство
