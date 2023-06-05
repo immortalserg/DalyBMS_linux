@@ -460,7 +460,7 @@ void posol(){
         lprintf("\n");
    }else if (out_to == "mqtt"){
         char sys_run[1024];
-        string sys_mqtt = "mosquitto_pub -h " + MqttServer +" -t '/" + MQTTtopik + "' -m ";
+        string sys_mqtt = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "' -m ";
         sprintf(sys_run,
         " %s'{\"BMS_status\":%d,\"Vbat\":%.2f,\"Abat\":%.2f,\"AhBat\":%.2f,\"AhTyp\":%.1f,\"Chg_FET\":%d,\"DisChg_FET\":%d,\"RSOC\":%.1f}'"
         ,sys_mqtt.c_str(),BMS_conect,(float)Vbat/10,(float)Abat/10,(float)RemCapacity/1000,(float)TypCapacity/100,Chg_FET_stat,DisChg_FET_stat,(float)RSOC/10);
@@ -475,7 +475,80 @@ void posol(){
             sprintf(sys_run," %s'{\"Vbank%d\":%.3f,\"Balans%d\":%d}'",sys_mqtt.c_str(),k,(float)V_cels[k]/1000,k, b_cels[k]);
             system(sys_run);
         }
-   }
+   }else if (out_to == "mqtt2"){
+        char sys_run[1024];
+	string sys_mqtt = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "' -m ";
+	string sys_mqtt1 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/BMS_status -m ";
+	sprintf(sys_run," %s'%d'",sys_mqtt1.c_str(),BMS_conect);
+        system(sys_run);
+        string sys_mqtt2 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/VbatA -m ";
+	sprintf(sys_run," %s'%.2f'",sys_mqtt2.c_str(),(float)Vbat/10);
+        system(sys_run);
+        string sys_mqtt3 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Abat -m ";
+	sprintf(sys_run," %s'%.2f'",sys_mqtt3.c_str(),(float)Abat/10);
+        system(sys_run);
+        string sys_mqtt4 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/AhBat -m ";
+	sprintf(sys_run," %s'%.2f'",sys_mqtt4.c_str(),(float)RemCapacity/1000);
+        system(sys_run);
+        
+        string sys_mqtt5 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/AhTyp -m ";
+	sprintf(sys_run," %s'%.1f'",sys_mqtt5.c_str(),(float)TypCapacity/100);
+        system(sys_run);
+        string sys_mqtt6 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Chg_FET -m ";
+	sprintf(sys_run," %s'%d'",sys_mqtt6.c_str(),Chg_FET_stat);
+        system(sys_run);
+        string sys_mqtt7 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/DisChg_FET -m ";
+	sprintf(sys_run," %s'%d'",sys_mqtt7.c_str(),DisChg_FET_stat);
+        system(sys_run);
+        string sys_mqtt8 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/RSOC -m ";
+	sprintf(sys_run," %s'%.1f'",sys_mqtt8.c_str(),(float)RSOC/10);
+        system(sys_run);
+
+
+
+/*
+	sprintf(sys_run,
+        " %s'{\"BMS_status\":%d,\"Vbat\":%.2f,\"Abat\":%.2f,\"AhBat\":%.2f,\"AhTyp\":%.1f,\"Chg_FET\":%d,\"DisChg_FET\":%d,\"RSOC\":%.1f}'"
+        ,sys_mqtt.c_str(),BMS_conect,(float)Vbat/10,(float)Abat/10,(float)RemCapacity/1000,(float)TypCapacity/100,Chg_FET_stat,DisChg_FET_stat,(float)RSOC/10);
+        system(sys_run);
+*/
+
+	string sys_mqtt9 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Temp0 -m ";
+        sprintf(sys_run," %s'%d'",sys_mqtt9.c_str(),NTC[0]);
+        system(sys_run);
+
+	string sys_mqtt10 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat0 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt10.c_str(),(float)V_cels[0]/1000);
+        system(sys_run);
+
+	string sys_mqtt11 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat1 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt11.c_str(),(float)V_cels[1]/1000);
+        system(sys_run);
+	string sys_mqtt12 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat2 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt12.c_str(),(float)V_cels[2]/1000);
+        system(sys_run);
+	string sys_mqtt13 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat3 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt13.c_str(),(float)V_cels[3]/1000);
+        system(sys_run);
+	string sys_mqtt14 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat4 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt14.c_str(),(float)V_cels[4]/1000);
+        system(sys_run);
+	string sys_mqtt15 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat5 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt15.c_str(),(float)V_cels[5]/1000);
+        system(sys_run);
+	string sys_mqtt16 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat6 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt16.c_str(),(float)V_cels[6]/1000);
+        system(sys_run);
+	string sys_mqtt17 = "mosquitto_pub -h " + MqttServer +" -t '" + MQTTtopik + "'/Vbat7 -m ";
+        sprintf(sys_run," %s'%.3f'",sys_mqtt17.c_str(),(float)V_cels[7]/1000);
+        system(sys_run);
+
+
+
+
+
+
+     }
 
 }
 
